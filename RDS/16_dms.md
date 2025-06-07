@@ -1,9 +1,5 @@
 # AWS Database Migration Service (DMS)
 
-> 🎥 This lesson extends the Associate Architect content on DMS. It’s critical for real-world AWS projects involving database migrations and increasingly important on the exam.
-
----
-
 ## 🧭 What Is AWS DMS?
 
 - A **managed service** that simplifies and automates **database migrations**.
