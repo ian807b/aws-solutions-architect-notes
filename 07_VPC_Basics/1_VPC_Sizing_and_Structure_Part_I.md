@@ -8,7 +8,7 @@ When designing a VPC, you must consider:
 - One or more CIDR blocks can be assigned
 - **Changing later is difficult**
 
-#### Review - CIDR Block? [Foundational Knowledge](https://github.com/ian807b/aws-solutions-architect-notes/blob/main/0_Foundational_Knowledge/0_AWS_SAA_Foundational_Network_Knowledge.pdf)
+#### Review - CIDR Block? [Foundational Knowledge](https://github.com/ian807b/aws-solutions-architect-notes/blob/main/00_Foundational_Knowledge/0_AWS_SAA_Foundational_Network_Knowledge.pdf)
 - **CIDR (Classless Inter-Domain Routing)** defines a **range of IP addresses** using a notation like `10.0.0.0/16`
 - The `/16` means 16 bits are reserved for the network, giving **65,536 total IPs**
 - Helps determine how large your VPC network can be
