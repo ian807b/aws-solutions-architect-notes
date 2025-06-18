@@ -10,7 +10,7 @@ When designing a VPC, you must consider:
 
 #### Review - CIDR Block? [Foundational Knowledge](https://github.com/ian807b/aws-solutions-architect-notes/blob/main/00_Foundational_Knowledge/0_AWS_SAA_Foundational_Network_Knowledge.pdf)
 - **CIDR (Classless Inter-Domain Routing)** defines a **range of IP addresses** using a notation like `10.0.0.0/16`
-- The `/16` means 16 bits are reserved for the network, giving **65,536 total IPs**
+- The `/16` means 16 bits are reserved for the network, giving **65,536 total IPs** to use
 - Helps determine how large your VPC network can be
 
 ### 2. **VPC Size**
@@ -59,17 +59,20 @@ When designing a VPC, you must consider:
 
 ## CIDR Block and Subnetting Review
 
-- IP address = start of a range
+
 - Prefix (`/x`) = how many fixed bits
-  - `/8` → 1st octet fixed → 10.0.0.0 – 10.255.255.255
-  - `/9` → half of `/8` → 10.0.0.0 – 10.127.255.255, 10.128.0.0 – 10.255.255.255
+  - `/8` → 1st octet fixed → Available Range: 10.0.0.0 – 10.255.255.255
+  - `/9` → half of `/8` → Available Ranges: 10.0.0.0 – 10.127.255.255 or 10.128.0.0 – 10.255.255.255
+  - `/8` prefix means 32 - 8 = 24 host bits. The number of unique IP addresses is $2^{24}$.
+  - `/9` prefix means 32 - 9 = 23 host bits. The number of unique IP addresses is $2^{23}$.
+  - Since $2^{24} = 2 \times 2^{23}$, a `/8` block has **twice** as many IPs as a `/9` block.
 
 > Sample Calculation `192.168.10.0/24`
   - /24 is the CIDR suffix (or subnet mask)
   - First 24 bits of the 32-bit IPv4 address are used for the network portion 
   - The remaining for the host portion (usable IPs)
   - Host bits: 32 - 24 = 8
-  - The number of possible unique addresses is 2^8 = 256 total IP addresses
+  - The number of possible unique addresses is $2^{8} = 256$ total IP addresses
   - Thus, `192.168.10/24` spans 192.168.10.0 - 192.168.10.255, which includes the reserved ones
 
 > A CIDR block defines the total IP addresses range the VPC can use.
@@ -107,6 +110,7 @@ We plan for:
 
 - 5 regions × 2 VPCs = 10 ranges
 - 10 ranges × 4 accounts = 40 total ranges
+- i.e., 40 unique CIDR blocks needed
 
 > Each VPC and must be assigned a unique CIDR block, even though they're isolated by default.
 
@@ -119,17 +123,8 @@ We plan for:
   - `10.128.0.0 – 10.255.255.255` (Google Cloud)
 - Usable range:
   - **`10.16.0.0 – 10.127.255.255`** (Safe, ~112 /16 blocks)
-
----
-
-## Summary
-
-| Design Principle                  | Consideration                                                                 |
-|----------------------------------|------------------------------------------------------------------------------|
-| Choose VPC CIDR carefully        | Hard to change later                                                        |
-| Avoid IP overlap                 | On-prem, other clouds, AWS defaults, partners                               |
-| Use private, uncommon ranges     | `10.16.0.0/16` is a good base                                                |
-| Plan for future scale            | Estimate based on max regions and accounts                                  |
-| Use tiers & AZs for structure    | Enables security segmentation and resilience                                |
+  - ~112 /16 blocks because $127 - 16 = 112$
+  - x.x.0.0 - x.x.255.255 is a /16 block
+  - Thus, x.16.x.x - x.127.x.x gives 112 /16 blocks
 
 ---
